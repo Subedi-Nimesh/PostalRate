@@ -1,0 +1,42 @@
+.indent{
+    margin-left: 2px;
+    font-size:36px;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+}
+
+select, textarea {
+    font-size: 18px;
+}
+
+.hover:hover {
+	background-color: red;
+}
+
+.text {
+	font-size: 50px;
+    color: white;
+}
+
+.table{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.submit{
+    margin-left: 50%;
+}
+
+.td{
+    background-color:#000d1a;
+    width:0.01%;
+}

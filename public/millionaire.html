@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="edit.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Millionaire</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        // function isnone(){
+        //     var newId= document.getElementById('world');
+        //     newId.style.display = "none";
+
+        //     $.get('/getQuestion', function(data, status){
+        //         alert(data.question);
+        //         newId.innerHTML="<p>" + data.question + "</p>";
+        //         newId.style.display = "block";
+        //     })
+        // }
+
+        function onload(){
+            document.getElementById('displayQuestion').style.display = "none";
+            document.getElementById('gamePage').style.display = "none";
+            document.getElementById('addQuestion').style.display = "none";
+            document.getElementById('addAnswer').style.display = "none";
+            document.getElementById('editQuestion').style.display = "none";
+        }
+
+        function startGame(){
+            $.get('/getQuestion', function(data, status){
+                // data.result[i].id;
+                var html = "";
+                var rand = Math.floor(Math.random() * data.result.length);
+                    html += data.result[rand].questions;
+                // html += "<table><br>"; 
+                var htmlAns = "<table>";
+                var rand = Math.floor(Math.random() * data.result.length);
+                // for(var i = 0; i)
+                htmlAns += "<tr><td>" + (i+1) + "</td><td>" + data.result[i].questions + "</td></tr>";
+
+                htmlAns = "</table>";
+                document.getElementById('gameQuestion').innerHTML = html;
+                document.getElementById('gameAnswers').innerHTML = htmlAns;
+                document.getElementById('mainPage').style.display = "none";
+                document.getElementById('gamePage').style.display = "block";
+            });
+            
+        }
+
+        function displayQuestion(){
+            $.get('/getQuestion', function(data, status){
+                var html = "<table>";
+                for(var i = 0; i < data.result.length; i++){
+                    html += "<tr><td>" + (i+1) + "</td><td>" + data.result[i].questions + "</td></tr>";
+                }
+                html += "<table><br>"; 
+                document.getElementById('questions').innerHTML = html;
+                document.getElementById('mainPage').style.display = "none";
+                document.getElementById('displayQuestion').style.display = "block";
+            });
+        }
+
+        function addQuestion(){
+            document.getElementById('displayQuestion').style.display = "none";
+
+            document.getElementById('addQuestion').style.display = "block";
+        }
+
+        function addAnswer(){
+            document.getElementById('displayQuestion').style.display = "none";
+
+            document.getElementById('addAnswer').style.display = "block";
+        }
+
+        function editQuestion(){
+            document.getElementById('displayQuestion').style.display = "none";
+
+            document.getElementById('editQuestion').style.display = "block";
+        }
+
+        function backToMain(){
+            document.getElementById('displayQuestion').style.display = "none";
+
+            document.getElementById('mainPage').style.display = "block";
+        }
+
+        function submitResponse(){
+            document.getElementById('displayQuestion').style.display = "block";
+            document.getElementById('addQuestion').style.display = "none";
+            document.getElementById('addAnswer').style.display = "none";
+            document.getElementById('editQuestion').style.display = "none";
+        }
+
+        // function isnone(){
+        //     var newId= document.getElementById('world');
+        //     newId.style.display = "none";
+
+        //     $.get('/getQuestion', function(data, status){
+        //         alert(data.question);
+        //         newId.innerHTML="<p>" + data.question + "</p>";
+        //         newId.style.display = "block";
+        //     })
+        // }
+    </script>
+</head>
+<body onload="onload()" style="background-color: darkblue;">
+    <img src="logo.png" width='766px' height='581.33px'>
+
+    <div id="mainPage" >
+        <br>
+    <button class = "button" onclick="startGame()" style ="margin-left:220px">Start Game</Button>
+    <button class = "button" onclick="displayQuestion()">Edit Questions</Button>
+    </div>
+
+
+    <div id="displayQuestion" class="displayQuestions">
+            <button onclick="backToMain()" >Go Back</a></button><br><br>
+            <p><h1><b>Displaying All Questions:</b></h1><br> 
+                <div id="questions">
+                </div>
+                <!-- <?php
+            $number = 1;
+            echo "<div class='indent'>";
+            echo "<table>";
+            foreach ($db->query('SELECT * FROM questions') as $row)
+            {
+              echo "<tr><td>$number. <a href=\"javascript:confirmation(".$row['id'].");\">". $row['questions']. "</a></td>";
+              echo "<td><button><a href='editquestion.php?Id=".$row['id']."'><span style='font-family:Wingdings;'>?</span> Edit</a></button><br></td>";
+              echo "<td><button><a href=\"javascript:confirmation(".$row['id'].");\"><img src='https://img.icons8.com/small/16/000000/filled-trash.png'> Delete</a></button></td></tr>";
+              $number += 1;
+            }
+            
+            echo "</table>";
+            echo "</div>";
+                ?> -->
+        
+            <button class='button' onclick="addQuestion()">Add Question</a></button>
+            <button class='button' onclick="addAnswer()">Add Answer</a></button>
+          </p>
+    </div>
+    
+    
+    
+    
+    
+    <div id="addQuestion">
+        	<p><h1><b>Add New Questions:</b></h1><br> 
+                <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
+                  <?php
+                echo "<div class='indent'>";
+                    echo "Enter New Question:  <textarea name='newQuestion' row='1' cols='50' required></textarea><br>";
+            
+                    echo "Select Answer:      <select name='answerSelect' required>";
+                    echo "<option>Choose Answer</option>";
+                            foreach ($db->query('SELECT * FROM answers') as $row)
+                            {
+                                echo "<option value=".$row['id'].">".$row['answer']."</option><br>";
+                        }
+                        echo "</select><br><br>";
+                        echo "</div>";
+                    ?>
+             -->
+                <button class='button' onclick="submitResponse()">Submit</button>
+              <!-- </form> -->
+    </div>
+
+    <div id="addAnswer">
+            <p><h1><b>Add New Answers:</b><h1><br> 
+                <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
+                  <?php
+                echo "<div class='indent'>";
+                echo "Select Type:      <select name='typeSelect' required>";
+                echo "<option>Choose Types</option>";
+                        foreach ($db->query('SELECT * FROM types') as $row)
+                        {
+                              echo "<option value=".$row['id'].">".$row['type']."</option><br>";
+                  }
+                  echo "</select><br>";
+            
+                  echo "Enter New Answer:  <textarea name='newAnswer' row='1' cols='50'required></textarea><br><br>";
+                  echo "</div>";
+                    ?>
+             -->
+                <button class='button' onclick="submitResponse()">Submit</button>
+              <!-- </form> -->
+    </div>
+
+    <div id="editQuestion">
+        	<p><h1><b>Edit Question:</b></h1><br> 
+                <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
+                  <?php
+            
+                $result = $questionValue->fetch(PDO::FETCH_ASSOC);
+                $result = $result['questions'];
+                echo "<div class='indent'>";
+                  echo "Enter New Question:  <textarea name='editquestion' row='2' cols='50' id='question' required>$result</textarea><br><br>";
+            
+                  echo "Select Answer:      <select name='answerSelect' required>";
+                    echo "<option>Choose Answer</option>";
+                            foreach ($db->query('SELECT * FROM answers') as $row)
+                            {
+                                echo "<option value=".$row['id'].">".$row['answer']."</option><br>";
+                        }
+                        echo "</select><br><br>";
+                        echo "<input type='none' name='editId' value='$value'>";
+                        echo "</div>";
+                ?>
+             -->
+                <button class='button' onclick="submitResponse()">Submit</button>
+              <!-- </form>             -->
+    </div>
+
+    <div id="gamePage">
+        <div id="gameQuestion" class="text">
+        </div>
+        <div id="gameAnswers" class="text"></div>
+            </div>
+            <!-- <br>
+            <form action="answer.php" method="POST">
+                <?php
+                echo "<div class='text'>";
+                // $displayQues = $db->query("SELECT * FROM questions WHERE ID NOT IN ($_SESSION['Prev']) ORDER BY RANDOM() LIMIT 1");
+                // $result = $displayQues->fetch(PDO::FETCH_ASSOC);
+                // $result = $result['questions'];
+                // echo "$result";
+                $displayQues = $db->query("SELECT * From questions Q INNER JOIN answers A ON Q.answers_id=A.id ORDER BY RANDOM() LIMIT 1");
+                $result = $displayQues->fetch(PDO::FETCH_ASSOC);
+                $resultQ = $result['questions'];
+                $resultA = $result['answer'];
+                $resultAns = $result['answers_id'];
+                $_SESSION['Answer_id'] = $resultAns;
+                $resultAnsType = $result['answer_type'];
+                echo "$resultQ<br>";
+                // echo "<input type='radio' value='$resultAns' >$resultA<Br>";
+                $display = rand(1,4);
+                $count = 1;
+                $displayQues = $db->query("SELECT * From answers WHERE answer_type=$resultAnsType AND id!=$resultAns ORDER BY RANDOM() LIMIT 3");
+                $result = $displayQues->fetchAll(PDO::FETCH_ASSOC);
+                // echo "<div class='answers'>";
+                echo "<table class='table'><tr>";
+                foreach ($result as $incorrect){
+                    if ($count == 3) {
+                       echo "</tr><tr>";
+                    }
+                    if($count == $display){
+                        echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value='$resultAns' >$resultA</span></td>";
+                        $count += 1;
+                    }
+                    if ($count == 3) {
+                        echo "</tr><tr>";
+                    }
+                    echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value=".$incorrect['id'].">".$incorrect['answer']."</span></td>";
+                    $count += 1;
+                }
+                if($display == 4){
+                    echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value='$resultAns' >$resultA<Br></span></td><br>";
+                }
+                echo "</tr></table>";
+                // echo "</div>";
+                echo "</div>";
+                echo "<span class='submit'><button class='button' type='submit'>Submit</button></span>";
+            ?>
+        
+            </form> -->
+    </div>
+
+</body>
+</html>
