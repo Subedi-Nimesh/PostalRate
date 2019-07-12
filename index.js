@@ -3,7 +3,7 @@ const path = require('path')
 const PORT = process.env.PORT || 8888
 const { Pool } = require('pg');
 const pool = new Pool({
-  connectionString: DATABASE_URL
+  connectionString: process.env.DATABASE_URL
 });
 
 express()
