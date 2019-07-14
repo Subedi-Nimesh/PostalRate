@@ -14,4 +14,11 @@ express()
       res.json({result:data.rows})
     })
   })
+  .get('/getAnswers', (req, res) => {
+    pool.query("SELECT * FROM answers", function(error, data){
+      console.log("Error" + error);
+      res.json({result:data.rows})
+    })
+  })
+  
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
