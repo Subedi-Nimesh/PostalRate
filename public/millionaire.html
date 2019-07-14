@@ -52,7 +52,7 @@
             $.get('/getQuestion', function(data, status){
                 var html = "<table>";
                 for(var i = 0; i < data.result.length; i++){
-                    html += "<tr><td>" + (i+1) + "</td><td>" + data.result[i].questions + "</td></tr>";
+                    html += "<tr><td>" + (i+1) + ") </td><td>" + data.result[i].questions + "</td></tr>";
                 }
                 html += "<table><br>"; 
                 document.getElementById('questions').innerHTML = html;
