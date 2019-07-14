@@ -3,7 +3,7 @@ const path = require('path')
 const PORT = process.env.PORT || 8888
 const { Pool } = require('pg');
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
+  connectionString: process.env.DATABASE_URL || 'postgres://localhost:5432/millionaire'
 });
 
 express()
@@ -20,5 +20,11 @@ express()
       res.json({result:data.rows})
     })
   })
+  // .get('/sendAnswers', (req, res) => {
+  //   pool.query("INSERT INTO answers", function(error, data){
+  //     console.log("Error" + error);
+  //     res.json({result:data.rows})
+  //   })
+  // })
   
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
