@@ -117,24 +117,7 @@
     <div id="displayQuestion" class="text">
             <button onclick="backToMain()" >Go Back</a></button><br><br>
             <p><h1><b>Displaying All Questions:</b></h1><br> 
-                <div id="questions">
-                </div>
-                <!-- <?php
-            $number = 1;
-            echo "<div class='indent'>";
-            echo "<table>";
-            foreach ($db->query('SELECT * FROM questions') as $row)
-            {
-              echo "<tr><td>$number. <a href=\"javascript:confirmation(".$row['id'].");\">". $row['questions']. "</a></td>";
-              echo "<td><button><a href='editquestion.php?Id=".$row['id']."'><span style='font-family:Wingdings;'>?</span> Edit</a></button><br></td>";
-              echo "<td><button><a href=\"javascript:confirmation(".$row['id'].");\"><img src='https://img.icons8.com/small/16/000000/filled-trash.png'> Delete</a></button></td></tr>";
-              $number += 1;
-            }
-            
-            echo "</table>";
-            echo "</div>";
-                ?> -->
-        
+                <div id="questions"> </div>        
             <button class='button' onclick="addQuestion()">Add Question</a></button>
             <button class='button' onclick="addAnswer()">Add Answer</a></button>
           </p>
@@ -142,7 +125,7 @@
     
     
     <div id="addQuestion">
-        	<p><h1><b>Add New Questions:</b></h1><br> 
+        	<p><h1><b>Add New Questions:</b></h1><br>
                 <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
                   <?php
                 echo "<div class='indent'>";
