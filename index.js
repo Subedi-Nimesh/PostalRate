@@ -25,8 +25,8 @@ express()
       res.json({result:data.rows})
     })
   })
-  .get('/getAnswers', (req, res) => {
-    pool.query("SELECT * FROM answers Where answer_type=$1 AND id!=$2 ORDER BY RANDOM() LIMIT 3",[type_id, answer_id], function(error, data){
+  .post('/getAnswers', (req, res) => {
+    pool.query("SELECT * FROM answers Where answer_type=$1 AND id!=$2 ORDER BY RANDOM() LIMIT 3",[req.body.answer_type, req.body.answer_id], function(error, data){
       console.log("Error" + error);
       res.json({result:data.rows})
     })

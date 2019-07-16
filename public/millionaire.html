@@ -31,36 +31,24 @@
             $.get('/getOneQuestion', function(data, status){
                 var html = "";
                     html += data.result[0].questions;
+                    html += data.result[0].answer;
+                $.post('/getAnswers', {answer_id:data.result[0].answer_id, answer_type:data.result[0].answer_type}, function(dataAnswer, status){
+                    var htmlAns = "<table><tr>";
+                    for(var i = 0; i < 3; i++){
+                        htmlAns += "<td>" + dataAnswer.result[i].answer + "</td>";
+                            if(i == 1){
+                                htmlAns += "</tr><tr>";
+                            }
 
-                var htmlAns = "<table>";
+                    }
+                        htmlAns += "</tr></table>";
+                    document.getElementById('gameQuestion').innerHTML = html;
+                    document.getElementById('gameAnswers').innerHTML = htmlAns;
+                    document.getElementById('mainPage').style.display = "none";
+                    document.getElementById('gamePage').style.display = "block";
+                
+                });
 
-                // var rand = Math.floor(Math.random() * data.result.length);
-                // for(var i = 0; i)
-                // htmlAns += "<tr><td>" + data.result[i].answers + "</td></tr>";
-
-        //         foreach ($result as $incorrect){
-        //     if ($count == 3) {
-        //        echo "</tr><tr>";
-        //     }
-        //     if($count == $display){
-        //         echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value='$resultAns' >$resultA</span></td>";
-        //         $count += 1;
-        //     }
-        //     if ($count == 3) {
-        //         echo "</tr><tr>";
-        //     }
-        //     echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value=".$incorrect['id'].">".$incorrect['answer']."</span></td>";
-        //     $count += 1;
-        // }
-        // if($display == 4){
-        //     echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value='$resultAns' >$resultA<Br></span></td><br>";
-        // }
-
-                htmlAns = "</table>";
-                document.getElementById('gameQuestion').innerHTML = html;
-                document.getElementById('gameAnswers').innerHTML = htmlAns;
-                document.getElementById('mainPage').style.display = "none";
-                document.getElementById('gamePage').style.display = "block";
             });
             
         }
