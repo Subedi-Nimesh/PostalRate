@@ -11,6 +11,7 @@ express()
   .get('/getQuestion', (req, res) => {
     pool.query("SELECT * FROM questions", function(error, data){
       console.log("Error" + error);
+      console.log(data);
       res.json({result:data.rows})
     })
   })
