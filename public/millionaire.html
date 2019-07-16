@@ -34,7 +34,7 @@
                     html += data.result[0].answer;
                 $.post('/getAnswers', {answer_id:data.result[0].answer_id, answer_type:data.result[0].answer_type}, function(dataAnswer, status){
                     var htmlAns = "<table><tr>";
-                        alert(JSON.stringify(dataAnswer))
+                        alert(JSON.stringify(dataAnswer));
                     for(var i = 0; i < 3; i++){
                         htmlAns += "<td>" + dataAnswer.result[i].answer + "</td>";
                             if(i == 1){
