@@ -28,16 +28,33 @@
         }
 
         function startGame(){
-            $.get('/getQuestion', function(data, status){
-                // data.result[i].id;
+            $.get('/getOneQuestion', function(data, status){
                 var html = "";
-                var rand = Math.floor(Math.random() * data.result.length);
-                    html += data.result[rand].questions;
-                // html += "<table><br>"; 
+                    html += data.result.questions;
+
                 var htmlAns = "<table>";
-                var rand = Math.floor(Math.random() * data.result.length);
+
+                // var rand = Math.floor(Math.random() * data.result.length);
                 // for(var i = 0; i)
-                // htmlAns += "<tr><td>" + (i+1) + "</td><td>" + data.result[i].questions + "</td></tr>";
+                // htmlAns += "<tr><td>" + data.result[i].answers + "</td></tr>";
+
+        //         foreach ($result as $incorrect){
+        //     if ($count == 3) {
+        //        echo "</tr><tr>";
+        //     }
+        //     if($count == $display){
+        //         echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value='$resultAns' >$resultA</span></td>";
+        //         $count += 1;
+        //     }
+        //     if ($count == 3) {
+        //         echo "</tr><tr>";
+        //     }
+        //     echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value=".$incorrect['id'].">".$incorrect['answer']."</span></td>";
+        //     $count += 1;
+        // }
+        // if($display == 4){
+        //     echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value='$resultAns' >$resultA<Br></span></td><br>";
+        // }
 
                 htmlAns = "</table>";
                 document.getElementById('gameQuestion').innerHTML = html;
