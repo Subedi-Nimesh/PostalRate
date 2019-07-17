@@ -24,17 +24,23 @@ express()
       res.json({result:data.rows})
     })
   })
+  .get('/getTypes', (req, res) => {
+    pool.query("SELECT * FROM types", function(error, data){
+      console.log("Error" + error);
+      res.json({result:data.rows})
+    })
+  })
   .post('/getAnswers', (req, res) => {
     pool.query("SELECT * FROM answers Where answer_type=$1 AND id!=$2 ORDER BY RANDOM() LIMIT 3",[req.body.answer_type, req.body.answer_id], function(error, data){
       console.log("Error" + error);
       res.json({result:data.rows})
     })
   })
-  // .get('/sendAnswers', (req, res) => {
-  //   pool.query("INSERT INTO answers", function(error, data){
-  //     console.log("Error" + error);
-  //     res.json({result:data.rows})
-  //   })
-  // })
+  .post('/sendAnswers', (req, res) => {
+    pool.query("INSERT INTO answers (answer, answer_type) VALUES ($1, $2)"),[res.body.answer, res.body.answer_type], function(error, data){
+      console.log("Error" + error);
+      res.json({result:data.rows})
+    })
+  })
   
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
