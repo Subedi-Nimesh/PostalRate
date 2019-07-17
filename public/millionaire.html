@@ -31,18 +31,36 @@
             $.get('/getOneQuestion', function(data, status){
                 var html = "";
                     html += data.result[0].questions;
-                    html += data.result[0].answer;
+
                 $.post('/getAnswers', {answer_id:data.result[0].answers_id, answer_type:data.result[0].answer_type}, function(dataAnswer, status){
+                    
+                    var rand = rand(1,4);
+                    var count = 1;
                     var htmlAns = "<table><tr>";
-                        alert(JSON.stringify(dataAnswer));
                     for(var i = 0; i < 3; i++){
-                        htmlAns += "<td>" + dataAnswer.result[i].answer + "</td>";
-                            if(i == 1){
+                        if(count == 3){
+                            htmlAns += "</tr><tr>";
+                        }
+                        
+                        if (count == rand) {
+                            htmlAns += "<td>" + data.result[0].answer + "</td>";
+                            count += 1;
+                        }
+                        
+                        if(count == 3){
                                 htmlAns += "</tr><tr>";
                             }
 
+                        htmlAns += "<td>" + dataAnswer.result[i].answer + "</td>";
+                        count += 1;
                     }
-                        htmlAns += "</tr></table>";
+                    if (count == rand) {
+                            htmlAns += "<td>" + data.result[0].answer + "</td>";
+                            count += 1;
+                    }
+
+                    htmlAns += "</tr></table>";
+                    
                     document.getElementById('gameQuestion').innerHTML = html;
                     document.getElementById('gameAnswers').innerHTML = htmlAns;
                     document.getElementById('mainPage').style.display = "none";
