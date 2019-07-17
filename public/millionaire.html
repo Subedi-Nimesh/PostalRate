@@ -95,7 +95,7 @@
         function addAnswer(){
             $.get('/getTypes', function(dataTypes, status){
                 
-                var addAnswerhtml = "Select Type: <select name='typeSelect' required>";
+                var addAnswerhtml = "Select Type: <select id='typeSelect' name='typeSelect' required>";
                 addAnswerhtml += "<option>Choose Types</option>";
                 for (var i = 0; i < dataTypes.result.length; i++)
                 {
@@ -103,7 +103,7 @@
                 }
                 addAnswerhtml += "</select><br>";
 
-                addAnswerhtml += "Enter New Answer:  <textarea name='newAnswer' row='1' cols='50'required></textarea><br><br>";
+                addAnswerhtml += "Enter New Answer:  <textarea id='newAnswer' name='newAnswer' row='1' cols='50'required></textarea><br><br>";
     
                 
                     document.getElementById('addanswer').innerHTML = addAnswerhtml;
@@ -138,11 +138,31 @@
         }
 
 
-        function submitResponse(){
-            document.getElementById('displayQuestion').style.display = "block";
-            document.getElementById('addQuestion').style.display = "none";
-            document.getElementById('addAnswer').style.display = "none";
-            document.getElementById('editQuestion').style.display = "none";
+        function submitResponse(response){
+            if (response == "question") {
+                // $.post('/saveQuestion', function(dataSaveQuestion, status){
+
+                // })
+            } else if(response == "answer") {
+                var answer = document.getElementById('newAnswer').value;
+                var answer_type = document.getElementById('typeSelect').value;
+                
+                $.post('/saveAnswer', {answer:answer, answer_type:answer_type}, function(dataSaveAnswer, status){
+                    if(dataSaveAnswer.status == "Success"){
+                        alert("Adding answer Successful.");
+                        document.getElementById('displayQuestion').style.display = "block";
+                        document.getElementById('addQuestion').style.display = "none";
+                        document.getElementById('addAnswer').style.display = "none";
+                        document.getElementById('editQuestion').style.display = "none";
+
+                    }else{
+                        alert("Adding answer Unsuccessful");
+                    }
+                    
+                })
+            } else {
+                alert("Error");
+            }
         }
     </script>
 </head>
@@ -183,7 +203,7 @@
                         echo "</div>";
                     ?>
              -->
-                <button class='button' onclick="submitResponse()">Submit</button>
+                <button class='button' onclick="submitResponse('question')">Submit</button>
               <!-- </form> -->
     </div>
 
@@ -205,7 +225,7 @@
                   echo "</div>";
                     ?>
              -->
-                <button class='button' onclick="submitResponse()">Submit</button>
+                <button class='button' onclick="submitResponse('answer')">Submit</button>
               <!-- </form> -->
     </div>
 

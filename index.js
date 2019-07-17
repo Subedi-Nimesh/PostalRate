@@ -36,10 +36,10 @@ express()
       res.json({result:data.rows})
     })
   })
-  .post('/sendAnswers', (req, res) => {
+  .post('/saveAnswer', (req, res) => {
     pool.query("INSERT INTO answers (answer, answer_type) VALUES ($1, $2)",[res.body.answer, res.body.answer_type], function(error, data){
       console.log("Error" + error);
-      res.json({result:data.rows})
+      res.json({status:"Success"})
     })
   })
   
