@@ -109,23 +109,31 @@
             document.getElementById('mainPage').style.display = "block";
         }
 
+        function result(){
+            document.getElementById('gamePage').style.display = "none";
+
+            document.getElementById('result').style.display = "block";
+        }
+
+        function nextQuestion(){
+            document.getElementById('gamePage').style.display = "block";
+
+            document.getElementById('result').style.display = "none";
+        }
+
+        function nextQuestion(){
+            document.getElementById('mainPage').style.display = "block";
+
+            document.getElementById('result').style.display = "none";
+        }
+
+
         function submitResponse(){
             document.getElementById('displayQuestion').style.display = "block";
             document.getElementById('addQuestion').style.display = "none";
             document.getElementById('addAnswer').style.display = "none";
             document.getElementById('editQuestion').style.display = "none";
         }
-
-        // function isnone(){
-        //     var newId= document.getElementById('world');
-        //     newId.style.display = "none";
-
-        //     $.get('/getQuestion', function(data, status){
-        //         alert(data.question);
-        //         newId.innerHTML="<p>" + data.question + "</p>";
-        //         newId.style.display = "block";
-        //     })
-        // }
     </script>
 </head>
 <body onload="onload()" style="background-color: darkblue;">
@@ -220,7 +228,31 @@
         <div id="gameAnswers" class="text"></div>
         <br>
         
-        <span class='submit'><button class='button' type='button'>Submit</button></span>
+        <span class='submit'><button class='button' onclick="result()" type='button'>Submit</button></span>
+    </div>
+
+    <div id="result">
+        <!-- $selectedAns = $_POST['selected'];
+        $correctAns = $_SESSION['Answer_id'];
+        if($selectedAns == $correctAns)
+        {
+            $_SESSION['Score'] += 1;
+
+            if($_SESSION['Score'] != 10) {
+                <h1>Congrats.</h1><br> It was correct.<br><b> Your total score is Score;
+                </b><br><button class='button'><a href = 'game.php'>Next Question</a></button>
+            } else {
+                Congrats you have completed the game.<br>
+                <button class='button'><a href = 'millionaire.php'>Start Over</a></button>
+                <button class='button'><a href = ''>Claim Reward</a></button>
+            }
+        } else {
+            Boo.<br> It was incorrect.<br><b> Your final score is ". $_SESSION['Score']
+            </b><br><button class='button'><a href = 'millionaire.php'>Start Over</a></button>
+        } -->
+        
+        
+        <span class='submit'><button class='button' onclick="" type='button'>Submit</button></span>
     </div>
 
 </body>
