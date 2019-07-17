@@ -34,11 +34,11 @@
 
                 $.post('/getAnswers', {answer_id:data.result[0].answers_id, answer_type:data.result[0].answer_type}, function(dataAnswer, status){
                     
-                    var rand = Math.floor(Math.random() * Math.floor(4));
-                    var count = 1;
+                    var rand = Math.floor(Math.random() * Math.floor(3));
+                    var count = 0;
                     var htmlAns = "<table><tr>";
                     for(var i = 0; i < 3; i++){
-                        if(count == 3){
+                        if(count == 2){
                             htmlAns += "</tr><tr>";
                         }
                         
@@ -47,14 +47,14 @@
                             count += 1;
                         }
                         
-                        if(count == 3){
+                        if(count == 2){
                                 htmlAns += "</tr><tr>";
                             }
 
                         htmlAns += "<td>" + dataAnswer.result[i].answer + "</td>";
                         count += 1;
                     }
-                    if (count == rand) {
+                    if (count == 3) {
                             htmlAns += "<td>" + data.result[0].answer + "</td>";
                             count += 1;
                     }
