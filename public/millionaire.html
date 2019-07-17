@@ -43,7 +43,7 @@
                         }
                         
                         if (count == rand) {
-                            htmlAns += "<td>" + data.result[0].answer + "</td>";
+                            htmlAns += "<td class='td'><span class='hover input'>" + data.result[0].answer + "</span></td>";
                             count += 1;
                         }
                         
@@ -51,11 +51,11 @@
                                 htmlAns += "</tr><tr>";
                             }
 
-                        htmlAns += "<td>" + dataAnswer.result[i].answer + "</td>";
+                        htmlAns += "<td class='td'><span class='hover input'>" + dataAnswer.result[i].answer + "</span></td>";
                         count += 1;
                     }
                     if (count == 3) {
-                            htmlAns += "<td>" + data.result[0].answer + "</td>";
+                            htmlAns += "<td class='td'><span class='hover input'>" + data.result[0].answer + "</span></td>";
                             count += 1;
                     }
 
