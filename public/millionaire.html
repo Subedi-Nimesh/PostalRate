@@ -66,7 +66,7 @@
                     document.getElementById('gameAnswers').innerHTML = htmlAns;
                     document.getElementById('mainPage').style.display = "none";
                     document.getElementById('gamePage').style.display = "block";
-                
+                    document.getElementById('result').style.display = "none";
                 });
 
             });
@@ -114,12 +114,6 @@
             document.getElementById('gamePage').style.display = "none";
 
             document.getElementById('result').style.display = "block";
-        }
-
-        function nextQuestion(){
-            document.getElementById('gamePage').style.display = "block";
-
-            document.getElementById('result').style.display = "none";
         }
 
         function startOver(){
@@ -253,7 +247,7 @@
         } -->
         
         <span class='submit'><button class='button' onclick="startOver()" type='button'>Start Over</button></span>        
-        <span class='submit'><button class='button' onclick="nextQuestion()" type='button'>Next Question</button></span>
+        <span class='submit'><button class='button' onclick="startGame()" type='button'>Next Question</button></span>
     </div>
 
 </body>
