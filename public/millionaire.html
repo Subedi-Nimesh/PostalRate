@@ -106,8 +106,7 @@
                 addAnswerhtml += "Enter New Answer:  <textarea name='newAnswer' row='1' cols='50'required></textarea><br><br>";
     
                 
-                    document.getElementById('gameQuestion').innerHTML = html;
-                    document.getElementById('gameAnswers').innerHTML = htmlAns;
+                    document.getElementById('addanswer').innerHTML = addAnswerhtml;
 
                     document.getElementById('displayQuestion').style.display = "none";
                     document.getElementById('addAnswer').style.display = "block";
@@ -189,7 +188,8 @@
     </div>
 
     <div id="addAnswer" class="text">
-            <p><h1><b>Add New Answers:</b><h1><br> 
+            <p><h1><b>Add New Answers:</b></h1></p><br> 
+                <div class="text" id="addanswer"></div>
                 <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
                   <?php
                 echo "<div class='indent'>";
