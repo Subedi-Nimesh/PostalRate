@@ -36,7 +36,7 @@
                     
                     var rand = Math.floor(Math.random() * Math.floor(3));
                     var count = 0;
-                    var htmlAns = "<table><tr>";
+                    var htmlAns = "<table class='table'><tr>";
                     for(var i = 0; i < 3; i++){
                         if(count == 2){
                             htmlAns += "</tr><tr>";
@@ -139,7 +139,7 @@
 
 
     <div id="displayQuestion" class="text">
-            <button onclick="backToMain()" >Go Back</a></button><br><br>
+            <button class='button' onclick="backToMain()" >Go Back</a></button><br><br>
             <p><h1><b>Displaying All Questions:</b></h1><br> 
                 <div id="questions"> </div>        
             <button class='button' onclick="addQuestion()">Add Question</a></button>
@@ -216,57 +216,11 @@
     </div>
 
     <div id="gamePage">
-        <div id="gameQuestion" class="text">
-        </div>
+        <div id="gameQuestion" class="text"></div>
         <div id="gameAnswers" class="text"></div>
-            </div>
-            <!-- <br>
-            <form action="answer.php" method="POST">
-                <?php
-                echo "<div class='text'>";
-                // $displayQues = $db->query("SELECT * FROM questions WHERE ID NOT IN ($_SESSION['Prev']) ORDER BY RANDOM() LIMIT 1");
-                // $result = $displayQues->fetch(PDO::FETCH_ASSOC);
-                // $result = $result['questions'];
-                // echo "$result";
-                $displayQues = $db->query("SELECT * From questions Q INNER JOIN answers A ON Q.answers_id=A.id ORDER BY RANDOM() LIMIT 1");
-                $result = $displayQues->fetch(PDO::FETCH_ASSOC);
-                $resultQ = $result['questions'];
-                $resultA = $result['answer'];
-                $resultAns = $result['answers_id'];
-                $_SESSION['Answer_id'] = $resultAns;
-                $resultAnsType = $result['answer_type'];
-                echo "$resultQ<br>";
-                // echo "<input type='radio' value='$resultAns' >$resultA<Br>";
-                $display = rand(1,4);
-                $count = 1;
-                $displayQues = $db->query("SELECT * From answers WHERE answer_type=$resultAnsType AND id!=$resultAns ORDER BY RANDOM() LIMIT 3");
-                $result = $displayQues->fetchAll(PDO::FETCH_ASSOC);
-                // echo "<div class='answers'>";
-                echo "<table class='table'><tr>";
-                foreach ($result as $incorrect){
-                    if ($count == 3) {
-                       echo "</tr><tr>";
-                    }
-                    if($count == $display){
-                        echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value='$resultAns' >$resultA</span></td>";
-                        $count += 1;
-                    }
-                    if ($count == 3) {
-                        echo "</tr><tr>";
-                    }
-                    echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value=".$incorrect['id'].">".$incorrect['answer']."</span></td>";
-                    $count += 1;
-                }
-                if($display == 4){
-                    echo "<td class='td'><span class='hover input'><input type='radio' name='selected' value='$resultAns' >$resultA<Br></span></td><br>";
-                }
-                echo "</tr></table>";
-                // echo "</div>";
-                echo "</div>";
-                echo "<span class='submit'><button class='button' type='submit'>Submit</button></span>";
-            ?>
+        <br>
         
-            </form> -->
+        <span class='submit'><button class='button' type='button'>Submit</button></span>
     </div>
 
 </body>
