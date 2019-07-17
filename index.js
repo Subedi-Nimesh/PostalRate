@@ -37,7 +37,7 @@ express()
     })
   })
   .post('/saveAnswer', (req, res) => {
-    pool.query("INSERT INTO answers (answer, answer_type) VALUES ($1, $2)",[res.body.answer, res.body.answer_type], function(error, data){
+    pool.query("INSERT INTO answers (answer, answer_type) VALUES ($1, $2)",[req.body.answer, req.body.answer_type], function(error, data){
       console.log("Error" + error);
       res.json({status:"Success"})
     })
