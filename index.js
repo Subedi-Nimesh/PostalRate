@@ -49,6 +49,8 @@ express()
     })
   })
   .post('/saveQuestion', (req, res) => {
+    console.log(req.body.questions);
+    console.log(req.body.answers_id);
     pool.query("INSERT INTO questions (questions, answers_id) VALUES ($1, $2)",[req.body.questions, req.body.answers_id], function(error, data){
       console.log("Error" + error);
       res.json({status:"Success"})
