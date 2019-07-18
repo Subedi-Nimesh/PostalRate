@@ -159,10 +159,9 @@
 
         function submitResponse(response) {
             if (response == "question") {
-                // $.post('/saveQuestion', function(dataSaveQuestion, status){
-                    $.post('/saveAnswer', { answer: answer, answer_type: answer_type }, function (dataSaveAnswer, status) {
-                    if (dataSaveAnswer.status == "Success") {
-                        alert("Adding answer Successful.");
+                    $.post('/saveQuestion', { question: question, answer_id: answer_id }, function (dataSaveQuestion, status) {
+                    if (dataSaveQuestion.status == "Success") {
+                        alert("Adding Question Successful.");
                         document.getElementById('displayQuestion').style.display = "block";
                         document.getElementById('addQuestion').style.display = "none";
                         document.getElementById('addAnswer').style.display = "none";
