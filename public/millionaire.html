@@ -78,14 +78,14 @@
         }
 
         function addQuestion() {
-            $.get('/getTypes', function (dataTypes, status) {
+            $.get('/getAnswer', function (dataAnswer, status) {
 
-                var addQuestionhtml = "Enter New Answer:  <textarea id='newAnswer' name='newAnswer' row='1' cols='50'required></textarea><br><br>";
+                var addQuestionhtml = "Enter New Question:  <textarea id='newQuestion' name='newQuestion' row='1' cols='50'required></textarea><br><br>";
 
-                addQuestionhtml += "Select Type: <select id='typeSelect' name='typeSelect' required>";
-                addQuestionhtml += "<option>Choose Types</option>";
-                for (var i = 0; i < dataTypes.result.length; i++) {
-                    addQuestionhtml += "<option value=" + dataTypes.result[i].id + ">" + dataTypes.result[i].type + "</option><br>";
+                addQuestionhtml += "Select Answer: <select id='typeSelect' name='answerSelect' required>";
+                addQuestionhtml += "<option>Choose Answer</option>";
+                for (var i = 0; i < dataAnswer.result.length; i++) {
+                    addQuestionhtml += "<option value=" + dataAnswer.result[i].id + ">" + dataAnswer.result[i].type + "</option><br>";
                 }
                 addQuestionhtml += "</select><br>";
 
@@ -220,24 +220,10 @@
 
     <div id="addQuestion">
         <p>
-            <h1><b>Add New Questions:</b></h1><br>
-            <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
-                  <?php
-                echo "<div class='indent'>";
-                    echo "Enter New Question:  <textarea name='newQuestion' row='1' cols='50' required></textarea><br>";
-            
-                    echo "Select Answer:      <select name='answerSelect' required>";
-                    echo "<option>Choose Answer</option>";
-                            foreach ($db->query('SELECT * FROM answers') as $row)
-                            {
-                                echo "<option value=".$row['id'].">".$row['answer']."</option><br>";
-                        }
-                        echo "</select><br><br>";
-                        echo "</div>";
-                    ?>
-             -->
-            <button class='button' onclick="submitResponse('question')">Submit</button>
-            <!-- </form> -->
+            <h1><b>Add New Questions:</b></h1>
+        </p><br>
+        <div class="text" id="addQuestion"></div>
+        <button class='button' onclick="submitResponse('question')">Submit</button>
     </div>
 
     <div id="addAnswer" class="text">
@@ -245,23 +231,7 @@
             <h1><b>Add New Answers:</b></h1>
         </p><br>
         <div class="text" id="addanswer"></div>
-        <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
-                  <?php
-                echo "<div class='indent'>";
-                echo "Select Type:      <select name='typeSelect' required>";
-                echo "<option>Choose Types</option>";
-                        foreach ($db->query('SELECT * FROM types') as $row)
-                        {
-                              echo "<option value=".$row['id'].">".$row['type']."</option><br>";
-                  }
-                  echo "</select><br>";
-            
-                  echo "Enter New Answer:  <textarea name='newAnswer' row='1' cols='50'required></textarea><br><br>";
-                  echo "</div>";
-                    ?>
-             -->
         <button class='button' onclick="submitResponse('answer')">Submit</button>
-        <!-- </form> -->
     </div>
 
     <div id="editQuestion">
