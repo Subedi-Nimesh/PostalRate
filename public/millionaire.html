@@ -160,7 +160,7 @@
         function submitResponse(response) {
             if (response == "question") {
                 var question = document.getElementById('newQuestion').value;
-                var answer_id = document.getElementById('answerSelect').value;
+                var answers_id = document.getElementById('answerSelect').value;
 
                 $.post('/saveQuestion', { question: question, answers_id: answers_id }, function (dataSaveQuestion, status) {
                     if (dataSaveQuestion.status == "Success") {
@@ -193,18 +193,18 @@
 
                 });
             } else {
-                var answer = document.getElementById('newAnswer').value;
-                var answer_type = document.getElementById('typeSelect').value;
+                // var answer = document.getElementById('newAnswer').value;
+                // var answer_type = document.getElementById('typeSelect').value;
 
-                $.post('/editQuestion', { question: question, answer_id: answer_id, id: id }, function (dataEditQuestion, status) {
-                    if (dataEditQuestion.status == "Success") {
-                        alert("Editing Question Successful.");
-                        document.getElementById('displayQuestion').style.display = "block";
-                        document.getElementById('addQuestion').style.display = "none";
-                        document.getElementById('addAnswer').style.display = "none";
-                        document.getElementById('editQuestion').style.display = "none";
-                    }
-                });
+                // $.post('/editQuestion', { question: question, answer_id: answer_id, id: id }, function (dataEditQuestion, status) {
+                //     if (dataEditQuestion.status == "Success") {
+                //         alert("Editing Question Successful.");
+                //         document.getElementById('displayQuestion').style.display = "block";
+                //         document.getElementById('addQuestion').style.display = "none";
+                //         document.getElementById('addAnswer').style.display = "none";
+                //         document.getElementById('editQuestion').style.display = "none";
+                //     }
+                // });
             }
         }
     </script>
