@@ -78,11 +78,11 @@
         }
 
         function addQuestion() {
-            $.get('/getAnswer', function (dataAnswer, status) {
+            $.get('/getAllAnswer', function (dataAnswer, status) {
 
                 var addQuestionhtml = "Enter New Question:  <textarea id='newQuestion' name='newQuestion' row='1' cols='50'required></textarea><br><br>";
 
-                addQuestionhtml += "Select Answer: <select id='typeSelect' name='answerSelect' required>";
+                addQuestionhtml += "Select Answer: <select id='answerSelect' name='answerSelect' required>";
                 addQuestionhtml += "<option>Choose Answer</option>";
                 for (var i = 0; i < dataAnswer.result.length; i++) {
                     addQuestionhtml += "<option value=" + dataAnswer.result[i].id + ">" + dataAnswer.result[i].type + "</option><br>";
@@ -218,7 +218,7 @@
     </div>
 
 
-    <div id="addQuestion">
+    <div id="addQuestion" class="text">
         <p>
             <h1><b>Add New Questions:</b></h1>
         </p><br>

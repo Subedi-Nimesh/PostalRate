@@ -30,6 +30,12 @@ express()
       res.json({result:data.rows})
     })
   })
+  .get('/getAllAnswer', (req, res) => {
+    pool.query("SELECT * FROM answers", function(error, data){
+      console.log("Error" + error);
+      res.json({result:data.rows})
+    })
+  })
   .get('/getAnswer', (req, res) => {
     pool.query("SELECT * FROM questions RIGHT OUTER JOIN answers ON 1=1 WHERE questions.id = $1;",[req.query.id], function(error, data){
       console.log("Error" + error);
