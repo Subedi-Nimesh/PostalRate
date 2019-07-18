@@ -9,16 +9,6 @@
     <title>Millionaire</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-        // function isnone(){
-        //     var newId= document.getElementById('world');
-        //     newId.style.display = "none";
-
-        //     $.get('/getQuestion', function(data, status){
-        //         alert(data.question);
-        //         newId.innerHTML="<p>" + data.question + "</p>";
-        //         newId.style.display = "block";
-        //     })
-        // }
 
         function onload() {
             document.getElementById('displayQuestion').style.display = "none";
@@ -145,7 +135,7 @@
                 document.getElementById('displayQuestion').style.display = "none";
 
                 document.getElementById('editQuestion').style.display = "block";
-            })
+            });
         }
 
         function backToMain() {
@@ -188,7 +178,7 @@
                         alert("Adding answer Unsuccessful");
                     }
 
-                })
+                });
             } else {
                 var answer = document.getElementById('newAnswer').value;
                 var answer_type = document.getElementById('typeSelect').value;
@@ -201,7 +191,9 @@
                         document.getElementById('addAnswer').style.display = "none";
                         document.getElementById('editQuestion').style.display = "none";
                     }
-                }
+                });
+            }
+        }
     </script>
 </head>
 
