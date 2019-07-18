@@ -159,7 +159,10 @@
 
         function submitResponse(response) {
             if (response == "question") {
-                    $.post('/saveQuestion', { question: question, answer_id: answer_id }, function (dataSaveQuestion, status) {
+                var question = document.getElementById('newQuestion').value;
+                var answer_id = document.getElementById('answerSelect').value;
+
+                $.post('/saveQuestion', { question: question, answer_id: answer_id }, function (dataSaveQuestion, status) {
                     if (dataSaveQuestion.status == "Success") {
                         alert("Adding Question Successful.");
                         document.getElementById('displayQuestion').style.display = "block";
