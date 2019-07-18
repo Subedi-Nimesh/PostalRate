@@ -30,6 +30,12 @@ express()
       res.json({result:data.rows})
     })
   })
+  .get('/getAnswer', (req, res) => {
+    pool.query("SELECT * FROM questions RIGHT OUTER JOIN answers ON 1=1 WHERE questions.id = $1;",[req.query.id], function(error, data){
+      console.log("Error" + error);
+      res.json({result:data.rows})
+    })
+  })
   .post('/getAnswers', (req, res) => {
     pool.query("SELECT * FROM answers Where answer_type=$1 AND id!=$2 ORDER BY RANDOM() LIMIT 3",[req.body.answer_type, req.body.answer_id], function(error, data){
       console.log("Error" + error);
@@ -42,5 +48,17 @@ express()
       res.json({status:"Success"})
     })
   })
+  .post('/editQuestion', (req, res) => {
+    pool.query("UPDATE questions SET questions = $1, answers_id = $2 WHERE id = $3",[req.body.question, req.body.answer_id, req.body.id], function(error, data){
+      console.log("Error" + error);
+      res.json({status:"Success"})
+    })
+  })
+  // .post('/saveAnswer', (req, res) => {
+  //   pool.query("INSERT INTO answers (answer, answer_type) VALUES ($1, $2)",[req.body.answer, req.body.answer_type], function(error, data){
+  //     console.log("Error" + error);
+  //     res.json({status:"Success"})
+  //   })
+  // })
   
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))

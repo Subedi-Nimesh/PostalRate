@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="edit.css">
     <meta charset="UTF-8">
@@ -19,7 +20,7 @@
         //     })
         // }
 
-        function onload(){
+        function onload() {
             document.getElementById('displayQuestion').style.display = "none";
             document.getElementById('gamePage').style.display = "none";
             document.getElementById('addQuestion').style.display = "none";
@@ -28,40 +29,40 @@
             document.getElementById('result').style.display = "none";
         }
 
-        function startGame(){
-            $.get('/getOneQuestion', function(data, status){
+        function startGame() {
+            $.get('/getOneQuestion', function (data, status) {
                 var html = "";
-                    html += data.result[0].questions;
+                html += data.result[0].questions;
 
-                $.post('/getAnswers', {answer_id:data.result[0].answers_id, answer_type:data.result[0].answer_type}, function(dataAnswer, status){
-                    
+                $.post('/getAnswers', { answer_id: data.result[0].answers_id, answer_type: data.result[0].answer_type }, function (dataAnswer, status) {
+
                     var rand = Math.floor(Math.random() * Math.floor(3));
                     var count = 0;
                     var htmlAns = "<table class='table'><tr>";
-                    for(var i = 0; i < 3; i++){
-                        if(count == 2){
+                    for (var i = 0; i < 3; i++) {
+                        if (count == 2) {
                             htmlAns += "</tr><tr>";
                         }
-                        
+
                         if (count == rand) {
                             htmlAns += "<td class='td'><span class='hover input'>" + data.result[0].answer + "</span></td>";
                             count += 1;
                         }
-                        
-                        if(count == 2){
-                                htmlAns += "</tr><tr>";
-                            }
+
+                        if (count == 2) {
+                            htmlAns += "</tr><tr>";
+                        }
 
                         htmlAns += "<td class='td'><span class='hover input'>" + dataAnswer.result[i].answer + "</span></td>";
                         count += 1;
                     }
                     if (count == 3) {
-                            htmlAns += "<td class='td'><span class='hover input'>" + data.result[0].answer + "</span></td>";
-                            count += 1;
+                        htmlAns += "<td class='td'><span class='hover input'>" + data.result[0].answer + "</span></td>";
+                        count += 1;
                     }
 
                     htmlAns += "</tr></table>";
-                    
+
                     document.getElementById('gameQuestion').innerHTML = html;
                     document.getElementById('gameAnswers').innerHTML = htmlAns;
                     document.getElementById('mainPage').style.display = "none";
@@ -70,125 +71,165 @@
                 });
 
             });
-            
+
         }
 
-        function displayQuestion(){
-            $.get('/getQuestion', function(data, status){
+        function displayQuestion() {
+            $.get('/getQuestion', function (data, status) {
                 var html = "<table>";
-                for(var i = 0; i < data.result.length; i++){
-                    html += "<tr><td>" + (i+1) + ") </td><td>" + data.result[i].questions + "</td></tr>";
+                for (var i = 0; i < data.result.length; i++) {
+                    html += "<tr><td>" + (i + 1) + ") </td><td>" + data.result[i].questions + "</td></tr>";
                 }
-                html += "<table><br>"; 
+                html += "<table><br>";
                 document.getElementById('questions').innerHTML = html;
                 document.getElementById('mainPage').style.display = "none";
                 document.getElementById('displayQuestion').style.display = "block";
             });
         }
 
-        function addQuestion(){
-            document.getElementById('displayQuestion').style.display = "none";
+        function addQuestion() {
+            $.get('/getTypes', function (dataTypes, status) {
 
-            document.getElementById('addQuestion').style.display = "block";
+                var addQuestionhtml = "Enter New Answer:  <textarea id='newAnswer' name='newAnswer' row='1' cols='50'required></textarea><br><br>";
+
+                addQuestionhtml += "Select Type: <select id='typeSelect' name='typeSelect' required>";
+                addQuestionhtml += "<option>Choose Types</option>";
+                for (var i = 0; i < dataTypes.result.length; i++) {
+                    addQuestionhtml += "<option value=" + dataTypes.result[i].id + ">" + dataTypes.result[i].type + "</option><br>";
+                }
+                addQuestionhtml += "</select><br>";
+
+
+                document.getElementById('addanswer').innerHTML = addQuestionhtml;
+
+                document.getElementById('displayQuestion').style.display = "none";
+                document.getElementById('addQuestions').style.display = "block";
+            });
         }
 
-        function addAnswer(){
-            $.get('/getTypes', function(dataTypes, status){
-                
+        function addAnswer() {
+            $.get('/getTypes', function (dataTypes, status) {
+
                 var addAnswerhtml = "Select Type: <select id='typeSelect' name='typeSelect' required>";
                 addAnswerhtml += "<option>Choose Types</option>";
-                for (var i = 0; i < dataTypes.result.length; i++)
-                {
-			  	    addAnswerhtml += "<option value=" + dataTypes.result[i].id + ">" + dataTypes.result[i].type + "</option><br>";
+                for (var i = 0; i < dataTypes.result.length; i++) {
+                    addAnswerhtml += "<option value=" + dataTypes.result[i].id + ">" + dataTypes.result[i].type + "</option><br>";
                 }
                 addAnswerhtml += "</select><br>";
 
                 addAnswerhtml += "Enter New Answer:  <textarea id='newAnswer' name='newAnswer' row='1' cols='50'required></textarea><br><br>";
-    
-                
-                    document.getElementById('addanswer').innerHTML = addAnswerhtml;
 
-                    document.getElementById('displayQuestion').style.display = "none";
-                    document.getElementById('addAnswer').style.display = "block";
+
+                document.getElementById('addanswer').innerHTML = addAnswerhtml;
+
+                document.getElementById('displayQuestion').style.display = "none";
+                document.getElementById('addAnswer').style.display = "block";
             });
         }
 
-        function editQuestion(){
-            document.getElementById('displayQuestion').style.display = "none";
+        function editQuestion(id) {
+            // $.get('/getQuestion', function (data, status) {
 
-            document.getElementById('editQuestion').style.display = "block";
+            $.get('/getAnswer?id=' + id, function (dataAnswer, status) {
+                var editQuestionhtml = "Update question:  <textarea id='editquestion' name='editquestion' row='1' cols='50'required></textarea><br><br>";
+                editQuestionhtml += "Select Type: <select id='answerSelect' name='answerSelect' required>";
+                editQuestionhtml += "<option>Choose Answer</option>";
+                for (var i = 0; i < dataAnswer.result.length; i++) {
+                    editQuestionhtml += "<option value=" + dataAnswer.result[i].id + ">" + dataAnswer.result[i].answer + "</option><br>";
+                }
+                editQuestionhtml += "</select><br>";
+
+
+
+                document.getElementById('editQuestion').innerHTML = editQuestionhtml;
+                document.getElementById('displayQuestion').style.display = "none";
+
+                document.getElementById('editQuestion').style.display = "block";
+            })
         }
 
-        function backToMain(){
+        function backToMain() {
             document.getElementById('displayQuestion').style.display = "none";
 
             document.getElementById('mainPage').style.display = "block";
         }
 
-        function result(){
+        function result() {
             document.getElementById('gamePage').style.display = "none";
 
             document.getElementById('result').style.display = "block";
         }
 
-        function startOver(){
+        function startOver() {
             document.getElementById('mainPage').style.display = "block";
 
             document.getElementById('result').style.display = "none";
         }
 
 
-        function submitResponse(response){
+        function submitResponse(response) {
             if (response == "question") {
                 // $.post('/saveQuestion', function(dataSaveQuestion, status){
 
                 // })
-            } else if(response == "answer") {
+            } else if (response == "answer") {
                 var answer = document.getElementById('newAnswer').value;
                 var answer_type = document.getElementById('typeSelect').value;
-                
-                $.post('/saveAnswer', {answer:answer, answer_type:answer_type}, function(dataSaveAnswer, status){
-                    if(dataSaveAnswer.status == "Success"){
+
+                $.post('/saveAnswer', { answer: answer, answer_type: answer_type }, function (dataSaveAnswer, status) {
+                    if (dataSaveAnswer.status == "Success") {
                         alert("Adding answer Successful.");
                         document.getElementById('displayQuestion').style.display = "block";
                         document.getElementById('addQuestion').style.display = "none";
                         document.getElementById('addAnswer').style.display = "none";
                         document.getElementById('editQuestion').style.display = "none";
 
-                    }else{
+                    } else {
                         alert("Adding answer Unsuccessful");
                     }
-                    
+
                 })
             } else {
-                alert("Error");
-            }
-        }
+                var answer = document.getElementById('newAnswer').value;
+                var answer_type = document.getElementById('typeSelect').value;
+
+                $.post('/editQuestion', { question: question, answer_id: answer_id, id: id }, function (dataEditQuestion, status) {
+                    if (dataEditQuestion.status == "Success") {
+                        alert("Editing Question Successful.");
+                        document.getElementById('displayQuestion').style.display = "block";
+                        document.getElementById('addQuestion').style.display = "none";
+                        document.getElementById('addAnswer').style.display = "none";
+                        document.getElementById('editQuestion').style.display = "none";
+                    }
+                }
     </script>
 </head>
+
 <body onload="onload()" style="background-color: darkblue;">
     <img src="logo.png" width='766px' height='581.33px'>
 
-    <div id="mainPage" >
+    <div id="mainPage">
         <br>
-    <button class = "button" onclick="startGame()" style ="margin-left:220px">Start Game</Button>
-    <button class = "button" onclick="displayQuestion()">Edit Questions</Button>
+        <button class="button" onclick="startGame()" style="margin-left:220px">Start Game</Button>
+        <button class="button" onclick="displayQuestion()">Edit Questions</Button>
     </div>
 
 
     <div id="displayQuestion" class="text">
-            <button class='button' onclick="backToMain()" >Go Back</a></button><br><br>
-            <p><h1><b>Displaying All Questions:</b></h1><br> 
-                <div id="questions"> </div>        
+        <button class='button' onclick="backToMain()">Go Back</a></button><br><br>
+        <p>
+            <h1><b>Displaying All Questions:</b></h1><br>
+            <div id="questions"> </div>
             <button class='button' onclick="addQuestion()">Add Question</a></button>
             <button class='button' onclick="addAnswer()">Add Answer</a></button>
-          </p>
-    </div>    
-    
-    
+        </p>
+    </div>
+
+
     <div id="addQuestion">
-        	<p><h1><b>Add New Questions:</b></h1><br>
-                <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
+        <p>
+            <h1><b>Add New Questions:</b></h1><br>
+            <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
                   <?php
                 echo "<div class='indent'>";
                     echo "Enter New Question:  <textarea name='newQuestion' row='1' cols='50' required></textarea><br>";
@@ -203,14 +244,16 @@
                         echo "</div>";
                     ?>
              -->
-                <button class='button' onclick="submitResponse('question')">Submit</button>
-              <!-- </form> -->
+            <button class='button' onclick="submitResponse('question')">Submit</button>
+            <!-- </form> -->
     </div>
 
     <div id="addAnswer" class="text">
-            <p><h1><b>Add New Answers:</b></h1></p><br> 
-                <div class="text" id="addanswer"></div>
-                <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
+        <p>
+            <h1><b>Add New Answers:</b></h1>
+        </p><br>
+        <div class="text" id="addanswer"></div>
+        <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
                   <?php
                 echo "<div class='indent'>";
                 echo "Select Type:      <select name='typeSelect' required>";
@@ -225,13 +268,15 @@
                   echo "</div>";
                     ?>
              -->
-                <button class='button' onclick="submitResponse('answer')">Submit</button>
-              <!-- </form> -->
+        <button class='button' onclick="submitResponse('answer')">Submit</button>
+        <!-- </form> -->
     </div>
 
     <div id="editQuestion">
-        	<p><h1><b>Edit Question:</b></h1><br> 
-                <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
+        <p>
+            <h1><b>Edit Question:</b></h1><br>
+            <div id="editQuestion" class="text"></div>
+            <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
                   <?php
             
                 $result = $questionValue->fetch(PDO::FETCH_ASSOC);
@@ -250,15 +295,15 @@
                         echo "</div>";
                 ?>
              -->
-                <button class='button' onclick="submitResponse()">Submit</button>
-              <!-- </form>             -->
+            <button class='button' onclick="submitResponse('edit')">Submit</button>
+            <!-- </form>             -->
     </div>
 
     <div id="gamePage">
         <div id="gameQuestion" class="text"></div>
         <div id="gameAnswers" class="text"></div>
         <br>
-        
+
         <span class='submit'><button class='button' onclick="result()" type='button'>Submit</button></span>
     </div>
 
@@ -281,10 +326,11 @@
             Boo.<br> It was incorrect.<br><b> Your final score is ". $_SESSION['Score']
             </b><br><button class='button'><a href = 'millionaire.php'>Start Over</a></button>
         } -->
-        
-        <span class='submit'><button class='button' onclick="startOver()" type='button'>Start Over</button></span>        
+
+        <span class='submit'><button class='button' onclick="startOver()" type='button'>Start Over</button></span>
         <span class='submit'><button class='button' onclick="startGame()" type='button'>Next Question</button></span>
     </div>
 
 </body>
+
 </html>
