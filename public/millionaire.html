@@ -85,7 +85,7 @@
                 addQuestionhtml += "Select Answer: <select id='answerSelect' name='answerSelect' required>";
                 addQuestionhtml += "<option>Choose Answer</option>";
                 for (var i = 0; i < dataAnswer.result.length; i++) {
-                    addQuestionhtml += "<option value=" + dataAnswer.result[i].id + ">" + dataAnswer.result[i].type + "</option><br>";
+                    addQuestionhtml += "<option value=" + dataAnswer.result[i].id + ">" + dataAnswer.result[i].answer + "</option><br>";
                 }
                 addQuestionhtml += "</select><br>";
 
@@ -160,8 +160,19 @@
         function submitResponse(response) {
             if (response == "question") {
                 // $.post('/saveQuestion', function(dataSaveQuestion, status){
+                    $.post('/saveAnswer', { answer: answer, answer_type: answer_type }, function (dataSaveAnswer, status) {
+                    if (dataSaveAnswer.status == "Success") {
+                        alert("Adding answer Successful.");
+                        document.getElementById('displayQuestion').style.display = "block";
+                        document.getElementById('addQuestion').style.display = "none";
+                        document.getElementById('addAnswer').style.display = "none";
+                        document.getElementById('editQuestion').style.display = "none";
 
-                // })
+                    } else {
+                        alert("Adding new Question Unsuccessful");
+                    }
+
+                });
             } else if (response == "answer") {
                 var answer = document.getElementById('newAnswer').value;
                 var answer_type = document.getElementById('typeSelect').value;
