@@ -88,7 +88,7 @@
 
                 var addQuestionhtml = "Enter New Question:  <textarea id='newQuestion' name='newQuestion' row='1' cols='50'required></textarea><br><br>";
 
-                addQuestionhtml += "Select Answer: <select id='answerSelect' name='answerSelect' required>";
+                addQuestionhtml += "Select Answer: <select id='newAnswerSelect' name='newAnswerSelect' required>";
                 addQuestionhtml += "<option>Choose Answer</option>";
                 for (var i = 0; i < dataAnswer.result.length; i++) {
                     addQuestionhtml += "<option value=" + dataAnswer.result[i].id + ">" + dataAnswer.result[i].answer + "</option><br>";
@@ -127,7 +127,7 @@
 
             $.get('/getAnswer?id=' + id, function (dataAnswer, status) {
                 var editQuestionhtml = "Update question:  <textarea id='editingQuestion' name='editingQuestion' value='" + dataAnswer.result[id].questions + "'  row='1' cols='50'required>" + dataAnswer.result[id].questions + "</textarea><br><br>";
-                editQuestionhtml += "Select Answer: <select id='answerSelect' name='answerSelect' required>";
+                editQuestionhtml += "Select Answer: <select id='editAnswerSelect' name='editAnswerSelect' required>";
                 editQuestionhtml += "<option>Choose Answer</option>";
                 for (var i = 0; i < dataAnswer.result.length; i++) {
                     editQuestionhtml += "<option value=" + dataAnswer.result[i].id + ">" + dataAnswer.result[i].answer + "</option><br>";
@@ -201,7 +201,7 @@
         function submitResponse(response) {
             if (response == "question") {
                 var questions = document.getElementById('newQuestion').value;
-                var answers_id = document.getElementById('answerSelect').value;
+                var answers_id = document.getElementById('newAnswerSelect').value;
 
                 $.post('/saveQuestion', { questions: questions, answers_id: answers_id }, function (dataSaveQuestion, status) {
                     if (dataSaveQuestion.status == "Success") {
@@ -237,7 +237,7 @@
                 });
             } else {
                 var editingQuestions = document.getElementById('editingQuestion').value;
-                var answers_id = document.getElementById('answerSelect').value;
+                var answers_id = document.getElementById('editAnswerSelect').value;
                 var id = document.getElementById('tempID').value;
 
                 $.post('/editQuestion', { questions: editingQuestions, answers_id: answers_id, id: id }, function (dataEditQuestion, status) {
