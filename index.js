@@ -4,7 +4,7 @@ const parser = require('body-parser')
 const PORT = process.env.PORT || 8888
 const { Pool } = require('pg');
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgres://localhost:5432/millionaire'
+  connectionString: process.env.DATABASE_URL || 'postgres://postgres:Nimesh1998@localhost:5432/millionaire'
 });
 
 express()
@@ -49,10 +49,8 @@ express()
     })
   })
   .post('/saveQuestion', (req, res) => {
-    console.log(req.body.questions);
-    console.log(req.body.answers_id);
     pool.query("INSERT INTO questions (questions, answers_id) VALUES ($1, $2)",[req.body.questions, req.body.answers_id], function(error, data){
-      console.log("Error" + error);
+      console.log("Error " + error);
       res.json({status:"Success"})
     })
   })
@@ -62,8 +60,15 @@ express()
       res.json({status:"Success"})
     })
   })
+  .post('/deleteQuestion', (req, res) => {
+    pool.query("DELETE FROM questions WHERE id=$1",[req.body.id], function(error, data){
+      console.log("Error" + error);
+      res.json({status:"Success"})
+    })
+  })
   .post('/editQuestion', (req, res) => {
-    pool.query("UPDATE questions SET questions = $1, answers_id = $2 WHERE id = $3",[req.body.question, req.body.answer_id, req.body.id], function(error, data){
+
+    pool.query("UPDATE questions SET questions = $1, answers_id = $2 WHERE id = $3",[req.body.questions, req.body.answers_id, req.body.id], function(error, data){
       console.log("Error" + error);
       res.json({status:"Success"})
     })

@@ -68,7 +68,10 @@
             $.get('/getQuestion', function (data, status) {
                 var html = "<table>";
                 for (var i = 0; i < data.result.length; i++) {
-                    html += "<tr><td>" + (i + 1) + ") </td><td>" + data.result[i].questions + "</td></tr>";
+                    html += "<tr><td>" + (i + 1) + ") </td>";
+                    html += "<td>" + data.result[i].questions + "</td>";
+                    html += "<td><button class='button' onclick='editQuestion(" + data.result[i].id + ")' value ='" + data.result[i].id + "'>Edit</button></td>";
+                    html += "<td><button class='button' onclick='deleteQuestion(" + data.result[i].id + ")' value ='" + data.result[i].id + "'>delete</button></tr>";
                 }
                 html += "<table><br>";
                 document.getElementById('questions').innerHTML = html;
@@ -118,11 +121,10 @@
         }
 
         function editQuestion(id) {
-            // $.get('/getQuestion', function (data, status) {
 
             $.get('/getAnswer?id=' + id, function (dataAnswer, status) {
-                var editQuestionhtml = "Update question:  <textarea id='editquestion' name='editquestion' row='1' cols='50'required></textarea><br><br>";
-                editQuestionhtml += "Select Type: <select id='answerSelect' name='answerSelect' required>";
+                var editQuestionhtml = "Update question:  <textarea id='editingQuestion' name='editingQuestion' value='" + dataAnswer.result[id].questions + "'  row='1' cols='50'required>" + dataAnswer.result[id].questions + "</textarea><br><br>";
+                editQuestionhtml += "Select Answer: <select id='answerSelect' name='answerSelect' required>";
                 editQuestionhtml += "<option>Choose Answer</option>";
                 for (var i = 0; i < dataAnswer.result.length; i++) {
                     editQuestionhtml += "<option value=" + dataAnswer.result[i].id + ">" + dataAnswer.result[i].answer + "</option><br>";
@@ -130,8 +132,8 @@
                 editQuestionhtml += "</select><br>";
 
 
-
-                document.getElementById('editQuestion').innerHTML = editQuestionhtml;
+                document.getElementById('tempID').value = id;
+                document.getElementById('editquestion').innerHTML = editQuestionhtml;
                 document.getElementById('displayQuestion').style.display = "none";
 
                 document.getElementById('editQuestion').style.display = "block";
@@ -156,6 +158,21 @@
             document.getElementById('result').style.display = "none";
         }
 
+        function deleteQuestion(id) {
+            var answer = confirm("Are you sure you want to delete it?")
+            if (answer) {
+                $.post('/deleteQuestion', { id: id }, function (dataDeleteQuestion, status) {
+                    if (dataDeleteQuestion.status == "Success") {
+                        alert("Question Deleted");
+                        displayQuestion();
+                    } else {
+                        alert("Question deletion failed.");
+                    }
+
+                });
+            }
+        }
+
 
         function submitResponse(response) {
             if (response == "question") {
@@ -169,6 +186,7 @@
                         document.getElementById('addQuestion').style.display = "none";
                         document.getElementById('addAnswer').style.display = "none";
                         document.getElementById('editQuestion').style.display = "none";
+                        displayQuestion();
 
                     } else {
                         alert("Adding new Question Unsuccessful");
@@ -186,6 +204,7 @@
                         document.getElementById('addQuestion').style.display = "none";
                         document.getElementById('addAnswer').style.display = "none";
                         document.getElementById('editQuestion').style.display = "none";
+                        displayQuestion();
 
                     } else {
                         alert("Adding answer Unsuccessful");
@@ -193,18 +212,20 @@
 
                 });
             } else {
-                // var answer = document.getElementById('newAnswer').value;
-                // var answer_type = document.getElementById('typeSelect').value;
+                var editingQuestions = document.getElementById('editingQuestion').value;
+                var answers_id = document.getElementById('answerSelect').value;
+                var id = document.getElementById('tempID').value;
 
-                // $.post('/editQuestion', { question: question, answer_id: answer_id, id: id }, function (dataEditQuestion, status) {
-                //     if (dataEditQuestion.status == "Success") {
-                //         alert("Editing Question Successful.");
-                //         document.getElementById('displayQuestion').style.display = "block";
-                //         document.getElementById('addQuestion').style.display = "none";
-                //         document.getElementById('addAnswer').style.display = "none";
-                //         document.getElementById('editQuestion').style.display = "none";
-                //     }
-                // });
+                $.post('/editQuestion', { questions: editingQuestions, answers_id: answers_id, id: id }, function (dataEditQuestion, status) {
+                    if (dataEditQuestion.status == "Success") {
+                        alert("Editing Question Successful.");
+                        document.getElementById('displayQuestion').style.display = "block";
+                        document.getElementById('addQuestion').style.display = "none";
+                        document.getElementById('addAnswer').style.display = "none";
+                        document.getElementById('editQuestion').style.display = "none";
+                        displayQuestion();
+                    }
+                });
             }
         }
     </script>
@@ -247,31 +268,13 @@
         <button class='button' onclick="submitResponse('answer')">Submit</button>
     </div>
 
-    <div id="editQuestion">
+    <div id="editQuestion" class="text">
         <p>
-            <h1><b>Edit Question:</b></h1><br>
-            <div id="editQuestion" class="text"></div>
-            <!-- <form action="displayquestions.php" onsubmit='return confirmation()' method="POST">
-                  <?php
-            
-                $result = $questionValue->fetch(PDO::FETCH_ASSOC);
-                $result = $result['questions'];
-                echo "<div class='indent'>";
-                  echo "Enter New Question:  <textarea name='editquestion' row='2' cols='50' id='question' required>$result</textarea><br><br>";
-            
-                  echo "Select Answer:      <select name='answerSelect' required>";
-                    echo "<option>Choose Answer</option>";
-                            foreach ($db->query('SELECT * FROM answers') as $row)
-                            {
-                                echo "<option value=".$row['id'].">".$row['answer']."</option><br>";
-                        }
-                        echo "</select><br><br>";
-                        echo "<input type='none' name='editId' value='$value'>";
-                        echo "</div>";
-                ?>
-             -->
-            <button class='button' onclick="submitResponse('edit')">Submit</button>
-            <!-- </form>             -->
+            <h1><b>Edit Question:</b></h1>
+        </p><br>
+        <div id="editquestion" class="text"></div>
+        <input type="hidden" id="tempID" value="" />
+        <button class='button' onclick="submitResponse('edit')">Submit</button>
     </div>
 
     <div id="gamePage">
