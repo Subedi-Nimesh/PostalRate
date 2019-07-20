@@ -2,82 +2,100 @@ const express = require('express')
 const path = require('path')
 const parser = require('body-parser')
 const PORT = process.env.PORT || 8888
-const { Pool } = require('pg');
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgres://postgres:Nimesh1998@localhost:5432/millionaire'
-});
+
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
-  .use(parser.json())
-  .use(parser.urlencoded({extended:true}))
-  .get('/getOneQuestion', (req, res) => {
-    pool.query("SELECT * FROM questions Q INNER JOIN answers A ON Q.answers_id=A.id ORDER BY RANDOM() LIMIT 1", function(error, data){
-      console.log("Error" + error);
-      console.log(data); 
-      res.json({result:data.rows})
-    })
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('public/calculate.html'))
+  .get('/calculate', (req, res) => {
+    let weight = parseInt(req.query.weight);
+    let mailType = req.query.mailType;
+    let cost = totalCost(weight, mailType);
+    res.render('pages/display.ejs', {weight: weight, mailType: mailType, cost: cost});
   })
-  .get('/getQuestion', (req, res) => {
-    pool.query("SELECT * FROM questions", function(error, data){
-      console.log("Error" + error);
-      res.json({result:data.rows})
-    })
-  })
-  .get('/getTypes', (req, res) => {
-    pool.query("SELECT * FROM types", function(error, data){
-      console.log("Error" + error);
-      res.json({result:data.rows})
-    })
-  })
-  .get('/getAllAnswer', (req, res) => {
-    pool.query("SELECT * FROM answers", function(error, data){
-      console.log("Error" + error);
-      res.json({result:data.rows})
-    })
-  })
-  .get('/getAnswer', (req, res) => {
-    pool.query("SELECT * FROM questions RIGHT OUTER JOIN answers ON 1=1 WHERE questions.id = $1;",[req.query.id], function(error, data){
-      console.log("Error" + error);
-      res.json({result:data.rows})
-    })
-  })
-  .post('/getAnswers', (req, res) => {
-    pool.query("SELECT * FROM answers Where answer_type=$1 AND id!=$2 ORDER BY RANDOM() LIMIT 3",[req.body.answer_type, req.body.answers_id], function(error, data){
-      console.log("Error" + error);
-      res.json({result:data.rows})
-    })
-  })
-  .post('/saveQuestion', (req, res) => {
-    pool.query("INSERT INTO questions (questions, answers_id) VALUES ($1, $2)",[req.body.questions, req.body.answers_id], function(error, data){
-      console.log("Error " + error);
-      res.json({status:"Success"})
-    })
-  })
-  .post('/saveAnswer', (req, res) => {
-    pool.query("INSERT INTO answers (answer, answer_type) VALUES ($1, $2)",[req.body.answer, req.body.answer_type], function(error, data){
-      console.log("Error" + error);
-      res.json({status:"Success"})
-    })
-  })
-  .post('/deleteQuestion', (req, res) => {
-    pool.query("DELETE FROM questions WHERE id=$1",[req.body.id], function(error, data){
-      console.log("Error" + error);
-      res.json({status:"Success"})
-    })
-  })
-  .post('/editQuestion', (req, res) => {
-
-    pool.query("UPDATE questions SET questions = $1, answers_id = $2 WHERE id = $3",[req.body.questions, req.body.answers_id, req.body.id], function(error, data){
-      console.log("Error" + error);
-      res.json({status:"Success"})
-    })
-  })
-  // .post('/saveAnswer', (req, res) => {
-  //   pool.query("INSERT INTO answers (answer, answer_type) VALUES ($1, $2)",[req.body.answer, req.body.answer_type], function(error, data){
-  //     console.log("Error" + error);
-  //     res.json({status:"Success"})
-  //   })
-  // })
-  
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
+  function totalCost(weight, mailType) {
+    if (mailType == 'stamped')
+    {
+      switch (true) {
+        case (weight <= 1):
+          return .55;
+        case (weight <= 2):
+          return .70;
+        case (weight <= 3):
+          return .85;
+        case (weight <= 3.5):
+          return 1;
+      
+        default:
+          break;
+      }
+    }
+    if (mailType == 'metered')
+    {
+      switch (true) {
+        case (weight <= 1):
+          return .50;
+        case (weight <= 2):
+          return .65;
+        case (weight <= 3):
+          return .80;
+        case (weight <= 3.5):
+          return .95;
+      
+        default:
+          break;
+      }
+    }
+    if (mailType == 'flats')
+    {
+      switch(true) {
+        case (weight <= 1):
+          return 1;
+        case (weight <= 2):
+          return 1.15;
+        case (weight <= 3):
+          return 1.30;
+        case (weight <= 4):
+          return 1.45;
+        case (weight <= 5):
+          return 1.60;
+        case (weight <= 6):
+          return 1.75;
+        case (weight <= 7):
+          return 1.90;
+        case (weight <= 8):
+          return 2.05;
+        case (weight <= 9):
+          return 2.20;
+        case (weight <= 10):
+          return 2.35;
+        case (weight <= 11):
+          return 2.50;
+        case (weight <= 12):
+          return 2.65;
+        case (weight <= 13):
+          return 2.80;
+        default:
+          break;
+      }
+    }
+    if (mailType == 'retail')
+    {
+      switch(true) {
+        case (weight <= 4):
+          return 3.66;
+        case (weight <= 8):
+          return 4.39;
+        case (weight <= 12):
+          return 5.19;
+        case (weight >= 13):
+          return 5.71;
+        default:
+          break;
+      }
+    }
+  }
