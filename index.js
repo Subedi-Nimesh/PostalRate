@@ -14,7 +14,7 @@ express()
   .get('/getOneQuestion', (req, res) => {
     pool.query("SELECT * FROM questions Q INNER JOIN answers A ON Q.answers_id=A.id ORDER BY RANDOM() LIMIT 1", function(error, data){
       console.log("Error" + error);
-      console.log(data);
+      console.log(data); 
       res.json({result:data.rows})
     })
   })
