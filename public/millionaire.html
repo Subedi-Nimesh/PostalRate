@@ -36,7 +36,7 @@
                         }
 
                         if (count == rand) {
-                            htmlAns += "<td class='td'><span class='hover input'><input type='radio' id='selected' name='selected' value='" + data.result[0].answers_id + "' >" + data.result[0].answer + "</span></td>";
+                            htmlAns += "<td class='td'><span class='hover input'><input type='radio' id='selectedCorrect' name='selected' value='" + data.result[0].answers_id + "' >" + data.result[0].answer + "</span></td>";
                             count += 1;
                         }
 
@@ -44,11 +44,11 @@
                             htmlAns += "</tr><tr>";
                         }
 
-                        htmlAns += "<td class='td'><span class='hover input'><input type='radio' id='selected' name='selected' value='" + dataAnswer.result[i].id + "' >" + dataAnswer.result[i].answer + "</span></td>";
+                        htmlAns += "<td class='td'><span class='hover input'><input type='radio' id='selected" + i + "' name='selected' value='" + dataAnswer.result[i].id + "' >" + dataAnswer.result[i].answer + "</span></td>";
                         count += 1;
                     }
                     if (count == 4) {
-                        htmlAns += "<td class='td'><span class='hover input'><input type='radio' id='selected' name='selected' value='" + data.result[0].answers_id + "' >" + data.result[0].answer + "</span></td>";
+                        htmlAns += "<td class='td'><span class='hover input'><input type='radio' id='selectedCorrect' name='selected' value='" + data.result[0].answers_id + "' >" + data.result[0].answer + "</span></td>";
                         count += 1;
                     }
 
@@ -151,7 +151,7 @@
 
         function result(id) {
             var correctAnsID = correctAns;
-            var selectedAnsID = document.getElementById('selected').value;
+            var selectedAnsID = document.getElementsByName('selected').value;
             var display = "";
             if (selectedAnsID == correctAnsID) {
                 score += 1;
